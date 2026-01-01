@@ -10,6 +10,7 @@ OBJECTIVES:
 3. To classify messages into Spam or Ham (Not Spam).
 4. To demonstrate real-time text analysis using JavaScript.
 5. To provide an easy and user-friendly interface for message checking.
+
 TOOLS AND TECHNOLOGIES USED:
 Frontend:
 - HTML       : To create the structure of the web page.
