@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spam Detection Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 50px;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            width: 500px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border-radius: 5px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .spam {
+            color: red;
+        }
+
+        .ham {
+            color: green;
+        }
+
+        .history {
+            margin-top: 30px;
+        }
+
+        .history h3 {
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .history ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .history li {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Spam Detection Demo</h2>
+        <input type="text" id="message" placeholder="Enter your message here">
+        <button onclick="checkSpam()">Check Spam</button>
+
+        <div class="result" id="result"></div>
+
+        <div class="history">
+            <h3>Message History</h3>
+            <ul id="historyList"></ul>
+        </div>
+    </div>
+
+    <script>
+        // Spam keywords for demo
+        const spamKeywords = [
+            "win", "prize", "free", "cash", "reward", "offer", "lottery", "congratulations", "click here"
+        ];
+
+        // Message history array
+        const messageHistory = [];
+
+        function cleanText(text) {
+            return text.toLowerCase().trim();
+        }
+
+        function checkSpam() {
+            const msgInput = document.getElementById("message");
+            let msg = cleanText(msgInput.value);
+
+            if (!msg) {
+                alert("Please enter a message!");
+                return;
+            }
+
+            // Detect spam
+            let isSpam = spamKeywords.some(word => msg.includes(word));
+            let prediction = isSpam ? "spam" : "ham";
+
+            // Display result
+            const resultDiv = document.getElementById("result");
+            resultDiv.innerHTML = `Message: "${msg}"<br>Prediction: <span class="${prediction}">${prediction.toUpperCase()}</span>`;
+
+            // Store in history
+            messageHistory.push({message: msg, prediction: prediction});
+            updateHistory();
+
+            // Clear input
+            msgInput.value = "";
+            msgInput.focus();
+        }
+
+        function updateHistory() {
+            const historyList = document.getElementById("historyList");
+            historyList.innerHTML = "";
+            messageHistory.forEach((item, index) => {
+                const li = document.createElement("li");
+                li.innerHTML = `<strong>${item.prediction.toUpperCase()}</strong>: ${item.message}`;
+                li.className = item.prediction;
+                historyList.appendChild(li);
+            });
+        }
+    </script>
+</body>
+</html>
